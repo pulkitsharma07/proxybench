@@ -105,10 +105,13 @@ func main() {
 
 	// Define tests here.
 	tests := []testCase{
+		// To define tests which do not use any proxy, pass an empty Proxy object like below.
 		{"http://www.httpvshttps.com/", Proxy{}},
+		{"https://www.httpvshttps.com/", Proxy{}},
+
+		// To define tests which use proxy, pass a Proxy object having the proxy's address
 		{"http://www.httpvshttps.com/", Proxy{"http://localhost:8090"}},
 		{"https://www.httpvshttps.com/", Proxy{"http://localhost:8090"}},
-		{"https://www.httpvshttps.com/", Proxy{}},
 	}
 
 	executeAsync(tests, chromedriverPort)

@@ -5,14 +5,19 @@ import (
 	"log"
 	"strconv"
 	"strings"
-  "time"
+	"time"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
 )
 
+type Proxy struct {
+	address string
+}
+
 type testCase struct {
-	url string
+	url   string
+	proxy Proxy
 }
 
 type testResult struct {
@@ -33,10 +38,14 @@ func LaunchTest(test testCase, port int, done chan testResult) {
 
 	caps := selenium.Capabilities{"browserName": "chrome"}
 
+	chromeArgs := []string{}
+
+	if test.proxy != (Proxy{}) {
+		chromeArgs = append(chromeArgs, "--proxy-server="+test.proxy.address)
+	}
+
 	chrCaps := chrome.Capabilities{
-		Args: []string{
-			//"--proxy-server=http://localhost:8090",
-		},
+		Args: chromeArgs,
 	}
 
 	caps.AddChrome(chrCaps)
@@ -44,7 +53,6 @@ func LaunchTest(test testCase, port int, done chan testResult) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer wd.Quit()
 
 	if err := wd.Get(test.url); err != nil {
 		panic(err)
@@ -54,27 +62,61 @@ func LaunchTest(test testCase, port int, done chan testResult) {
 	timeToLoadStr, err := timeToLoad.Text()
 	duration, err := strconv.ParseFloat(strings.Replace(timeToLoadStr, " s", "", -1), 64)
 
+	wd.Quit()
 	done <- testResult{test, duration}
 }
 
-func main() {
-	chromedriverPort := 9515
-	chromedriver := startChromeDriver(chromedriverPort)
-	defer chromedriver.Stop()
+func executeAsync(tests []testCase, chromeDriverPort int) {
+	fmt.Printf("Executing tests %+v parallely\n", tests)
 
-  tests := []testCase{
-    testCase{"http://www.httpvshttps.com/"},
-    testCase{"https://www.httpvshttps.com/"},
-  }
+	// channel for gathering results
 	ch := make(chan testResult)
 
-  for _, test := range tests {
-    go LaunchTest(test, chromedriverPort, ch)
-    time.Sleep(1 * time.Second)
-  }
+	// Launch tests parallely
+	for _, test := range tests {
+		go LaunchTest(test, chromeDriverPort, ch)
 
-  for range tests {
-    var res = <-ch
-    fmt.Printf("Time for test %s : %f seconds\n", res.test.url, res.result)
-  }
+		// Do not fire concurrent start requests to chromedriver.
+		time.Sleep(1 * time.Second)
+	}
+
+	for range tests {
+		var res = <-ch
+		fmt.Printf("TestResult %+v \n", res)
+	}
+}
+
+func executeSync(tests []testCase, chromeDriverPort int) {
+	fmt.Printf("Executing tests %+v sequentially\n", tests)
+
+	// channel for gathering results
+	ch := make(chan testResult)
+
+	// Launch tests in Sync
+	for _, test := range tests {
+		go LaunchTest(test, chromeDriverPort, ch)
+
+		var res = <-ch
+		fmt.Printf("TestResult %+v \n", res)
+	}
+}
+
+func main() {
+
+	// Start chromedriver
+	chromedriverPort := 9515
+	chromedriver := startChromeDriver(chromedriverPort)
+
+	// Define tests here.
+	tests := []testCase{
+		{"http://www.httpvshttps.com/", Proxy{}},
+		{"http://www.httpvshttps.com/", Proxy{"http://localhost:8090"}},
+		{"https://www.httpvshttps.com/", Proxy{"http://localhost:8090"}},
+		{"https://www.httpvshttps.com/", Proxy{}},
+	}
+
+	//executeAsync(tests, chromedriverPort)
+	executeSync(tests, chromedriverPort)
+
+	chromedriver.Stop()
 }

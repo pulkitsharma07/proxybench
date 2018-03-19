@@ -1,71 +1,60 @@
-// Command simple is a chromedp example demonstrating how to do a simple google
-// search.
 package main
 
 import (
-	"context"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"time"
 
-	"github.com/chromedp/cdproto/cdp"
-	"github.com/chromedp/chromedp"
+	"github.com/tebeka/selenium"
+	"github.com/tebeka/selenium/chrome"
 )
 
+// This example shows how to navigate to a http://play.golang.org page, input a
+// short program, run it, and inspect its output.
+//
+// If you want to actually run this example:
+//
+//   1. Ensure the file paths at the top of the function are correct.
+//   2. Remove the word "Example" from the comment at the bottom of the
+//      function.
+//   3. Run:
+//      go test -test.run=Example$ github.com/tebeka/selenium
 func main() {
-	var err error
-
-	// create context
-	ctxt, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// create chrome instance
-	c, err := chromedp.New(ctxt, chromedp.WithLog(log.Printf))
+	// Start a Selenium WebDriver server instance (if one is not already
+	// running).
+	const (
+		// These paths will be different on your system.
+		port = 9222
+	)
+	opts := []selenium.ServiceOption{}
+	//selenium.SetDebug(true)
+	service, err := selenium.NewChromeDriverService("chromedriver", port, opts...)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err) // panic is used only as an example and is not otherwise recommended.
+	}
+	defer service.Stop()
+
+	// Connect to the WebDriver instance running locally.
+	caps := selenium.Capabilities{"browserName": "chrome"}
+
+	chrCaps := chrome.Capabilities{
+		Args: []string{
+			"--proxy-server=http://localhost:8090",
+		},
 	}
 
-	// run task list
-	var site, res string
-	err = c.Run(ctxt, googleSearch("site:brank.as", "Home", &site, &res))
+	caps.AddChrome(chrCaps)
+	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", port))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err) // panic is used only as an example and is not otherwise recommended.
+	}
+	defer wd.Quit()
+
+	// Navigate to the simple playground interface.
+	if err := wd.Get("http://www.httpvshttps.com/"); err != nil {
+		panic(err)
 	}
 
-	// shutdown chrome
-	err = c.Shutdown(ctxt)
-	if err != nil {
-		log.Fatal(err)
-	}
+	timeToLoad, err := wd.FindElement(selenium.ByCSSSelector, "#time")
+	fmt.Print(timeToLoad.Text())
 
-	// wait for chrome to finish
-	err = c.Wait()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Printf("saved screenshot from search result listing `%s` (%s)", res, site)
-}
-
-func googleSearch(q, text string, site, res *string) chromedp.Tasks {
-	var buf []byte
-	sel := fmt.Sprintf(`//a[text()[contains(., '%s')]]`, text)
-	return chromedp.Tasks{
-		chromedp.Navigate(`https://www.google.com`),
-		chromedp.WaitVisible(`#hplogo`, chromedp.ByID),
-		chromedp.SendKeys(`#lst-ib`, q+"\n", chromedp.ByID),
-		chromedp.WaitVisible(`#res`, chromedp.ByID),
-		chromedp.Text(sel, res),
-		chromedp.Click(sel),
-		chromedp.WaitVisible(`a[href="/brankas-for-business"]`, chromedp.ByQuery),
-		chromedp.WaitNotVisible(`.preloader-content`, chromedp.ByQuery),
-		chromedp.Location(site),
-		chromedp.ScrollIntoView(`.banner-section.third-section`, chromedp.ByQuery),
-		chromedp.Sleep(2 * time.Second), // wait for animation to finish
-		chromedp.Screenshot(`.banner-section.third-section`, &buf, chromedp.ByQuery),
-		chromedp.ActionFunc(func(context.Context, cdp.Executor) error {
-			return ioutil.WriteFile("screenshot.png", buf, 0644)
-		}),
-	}
 }

@@ -3,58 +3,78 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
+	"strings"
+  "time"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
 )
 
-// This example shows how to navigate to a http://play.golang.org page, input a
-// short program, run it, and inspect its output.
-//
-// If you want to actually run this example:
-//
-//   1. Ensure the file paths at the top of the function are correct.
-//   2. Remove the word "Example" from the comment at the bottom of the
-//      function.
-//   3. Run:
-//      go test -test.run=Example$ github.com/tebeka/selenium
-func main() {
-	// Start a Selenium WebDriver server instance (if one is not already
-	// running).
-	const (
-		// These paths will be different on your system.
-		port = 9222
-	)
+type testCase struct {
+	url string
+}
+
+type testResult struct {
+	test   testCase
+	result float64 //TODO: Make this generic
+}
+
+func startChromeDriver(port int) *selenium.Service {
 	opts := []selenium.ServiceOption{}
-	//selenium.SetDebug(true)
 	service, err := selenium.NewChromeDriverService("chromedriver", port, opts...)
 	if err != nil {
-		log.Fatal(err) // panic is used only as an example and is not otherwise recommended.
+		log.Fatal(err)
 	}
-	defer service.Stop()
+	return service
+}
 
-	// Connect to the WebDriver instance running locally.
+func LaunchTest(test testCase, port int, done chan testResult) {
+
 	caps := selenium.Capabilities{"browserName": "chrome"}
 
 	chrCaps := chrome.Capabilities{
 		Args: []string{
-			"--proxy-server=http://localhost:8090",
+			//"--proxy-server=http://localhost:8090",
 		},
 	}
 
 	caps.AddChrome(chrCaps)
 	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", port))
 	if err != nil {
-		log.Fatal(err) // panic is used only as an example and is not otherwise recommended.
+		log.Fatal(err)
 	}
 	defer wd.Quit()
 
-	// Navigate to the simple playground interface.
-	if err := wd.Get("http://www.httpvshttps.com/"); err != nil {
+	if err := wd.Get(test.url); err != nil {
 		panic(err)
 	}
 
 	timeToLoad, err := wd.FindElement(selenium.ByCSSSelector, "#time")
-	fmt.Print(timeToLoad.Text())
+	timeToLoadStr, err := timeToLoad.Text()
+	duration, err := strconv.ParseFloat(strings.Replace(timeToLoadStr, " s", "", -1), 64)
 
+	done <- testResult{test, duration}
+}
+
+func main() {
+	chromedriverPort := 9515
+	chromedriver := startChromeDriver(chromedriverPort)
+	defer chromedriver.Stop()
+
+  tests := []testCase{
+    testCase{"http://www.httpvshttps.com/"},
+    testCase{"https://www.httpvshttps.com/"},
+  }
+	ch := make(chan testResult)
+
+  for _, test := range tests {
+    go LaunchTest(test, chromedriverPort, ch)
+    time.Sleep(1 * time.Second)
+  }
+
+  for range tests {
+    var res = <-ch
+    fmt.Printf("Time for test %s : %f seconds\n", res.test.url, res.result)
+  }
 }

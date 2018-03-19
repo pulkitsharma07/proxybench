@@ -35,20 +35,16 @@ func startChromeDriver(port int) *selenium.Service {
 }
 
 func LaunchTest(test testCase, port int, done chan testResult) {
-
 	caps := selenium.Capabilities{"browserName": "chrome"}
 
-	chromeArgs := []string{}
-
+  // Use proxy if testCase.proxy is set
 	if test.proxy != (Proxy{}) {
-		chromeArgs = append(chromeArgs, "--proxy-server="+test.proxy.address)
+    chromeCaps := chrome.Capabilities{
+      Args: []string{"--proxy-server=" + test.proxy.address},
+    }
+    caps.AddChrome(chromeCaps)
 	}
 
-	chrCaps := chrome.Capabilities{
-		Args: chromeArgs,
-	}
-
-	caps.AddChrome(chrCaps)
 	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", port))
 	if err != nil {
 		log.Fatal(err)
@@ -115,8 +111,8 @@ func main() {
 		{"https://www.httpvshttps.com/", Proxy{}},
 	}
 
-	//executeAsync(tests, chromedriverPort)
-	executeSync(tests, chromedriverPort)
+	executeAsync(tests, chromedriverPort)
+	//executeSync(tests, chromedriverPort)
 
 	chromedriver.Stop()
 }

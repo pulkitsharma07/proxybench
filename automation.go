@@ -12,13 +12,13 @@ import (
 
 type Driver struct {
 	pathToExecutable string
-	portToListenAt   int
+	port             int
 	process          *selenium.Service
 }
 
 func (d *Driver) Start() {
 
-	service, err := selenium.NewChromeDriverService(d.pathToExecutable, d.portToListenAt)
+	service, err := selenium.NewChromeDriverService(d.pathToExecutable, d.port)
 	if err != nil {
 		log.Fatal(err)
 	}

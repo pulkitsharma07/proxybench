@@ -6,6 +6,7 @@ func main() {
 	defer chromeDriver.Stop()
 
 	suite := NewSimpleTestSuite(chromeDriver)
+
 	suite.executeAsync()
 	//suite.executeSync()
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/tebeka/selenium"
 )
@@ -13,7 +14,7 @@ type HTTPSTestCase struct {
 	name string
 }
 
-func (t HTTPSTestCase) Name() string {
+func (t HTTPSTestCase) String() string {
 	return t.name
 }
 
@@ -25,6 +26,7 @@ func (t HTTPSTestCase) Run(config testConfig, port int, done chan testResult) {
 		panic(err)
 	}
 
+	time.Sleep(2 * time.Second)
 	timeToLoad, err := wd.FindElement(selenium.ByCSSSelector, "#time")
 	if err != nil {
 		log.Fatal("Failed to parse results")

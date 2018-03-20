@@ -15,8 +15,9 @@ Benchmark different proxies on the basis of different metrics.
 
 ## development
 * Get the Go selenium bindings: `go get github.com/tebeka/selenium`
-* Currently HTTP/HTTPS tests are defined in `main.go`. Launch different proxies on different ports and add respective ports in the `tests` array.
-You can then uncomment `executeSync` / `executeAsync`.
+* Currently HTTP/HTTPS tests are defined in `httptest.go`, `httpstest.go`. Launch different proxies on different ports and add respective ports in the `tests` array.
+* You can define new tests similarly, and add them to a test suite.
+* You can then uncomment `executeSync` / `executeAsync` in main.go.
 * `go run *.go` to launch tests.
 
 ### TODO

@@ -7,6 +7,5 @@ func main() {
 
 	suite := NewSimpleTestSuite(chromeDriver)
 	suite.executeAsync()
-
-	//executeSync(tests, chromeDriver)
+	//suite.executeSync()
 }

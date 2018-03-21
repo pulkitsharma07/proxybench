@@ -7,11 +7,11 @@ Benchmark different proxies on the basis of different metrics.
 |:------------------------|:-------------------:|
 |HTTP Stress              | :white_check_mark:  |
 |HTTPS Stress (HTTP/2)    | :white_check_mark:  |
-|HTTPS Stress (HTTP/1.1)  | :x:                 |
-|WebSocket                | :x:                 |
-|Video Streaming          | :x:                 |
-|WebSocket Secure         | :x:                 |
-|\<TO ADD MORE\>          | :pushpin:                 |
+|HTTPS Stress (HTTP/1.1)  |                     |
+|WebSocket                |                     |
+|Video Streaming          |                     |
+|WebSocket Secure         |                     |
+|\<TO ADD MORE\>          |                     |
 
 ## development
 * Get the Go selenium bindings: `go get github.com/tebeka/selenium`

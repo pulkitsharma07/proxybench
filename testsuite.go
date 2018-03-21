@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/pulkitsharma07/proxybench/benchmark"
 )
 
 type testSuite struct {
 	config testConfig
 	driver Driver
-	tests  []testCase
+	tests  []benchmark.Benchmark
 }
 
 // Generates a new testSuite, Add different tests in the testCase slice
@@ -18,13 +20,9 @@ func NewSimpleTestSuite(driver Driver) *testSuite {
 			Proxy{},
 		},
 		driver,
-		[]testCase{
-			HTTPTestCase{
-				"HTTP Stress",
-			},
-			HTTPSTestCase{
-				"HTTPS Stress",
-			},
+		[]benchmark.Benchmark{
+			StressHTTP("HTTP Stress"),
+			StressHTTPS("HTTPS Stress"),
 		},
 	}
 }

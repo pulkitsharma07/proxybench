@@ -47,6 +47,7 @@ Generates the following:
 * CLI options to launch tests in sync/async
 * Add wrapper around `Run` to measure the proxy's CPU/Memory usage (Need to take PID from user, or figure out from script?).Eventually render a timeseries graph.
 * Test reports, generate test reports confining to some format, each test case will have corresponding timeseries graphs of CPU, memory, disk, number of sockets etc of the proxy.
+* Final plan is to give every proxy a score based on its performance in comparison to the baseline for the different benchmarks.
 * Launch proxies from this script?
 
 

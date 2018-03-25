@@ -7,6 +7,11 @@ import (
 )
 
 func main() {
-	suite := launcher.Launch([]config.Config{{config.Proxy{"Direct", ""}}, {config.Proxy{"mitmproxy", "localhost:8085"}}})
+	suite := launcher.Launch([]config.Config{
+		{config.Proxy{"Direct", ""}},
+		{config.Proxy{"mitmproxy", "localhost:8085"}},
+		{config.Proxy{"browsermob (Legacy)", "localhost:8081"}},
+		{config.Proxy{"browsermob (LittleProxy)", "localhost:8083"}},
+	})
 	reporter.ShowReport(suite.Results())
 }

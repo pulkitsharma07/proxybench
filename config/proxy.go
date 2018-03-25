@@ -8,5 +8,5 @@ type Proxy struct {
 }
 
 func (p Proxy) String() string {
-	return fmt.Sprintf("Name: %s, Address: %s", p.Name, p.Address)
+	return fmt.Sprintf("%s", p.Name)
 }

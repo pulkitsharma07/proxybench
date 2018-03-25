@@ -14,7 +14,7 @@ type Field struct {
 }
 
 func (f Field) String() string {
-	return fmt.Sprintf("(%s : %f)", f.Name, f.Value)
+	return fmt.Sprintf("%f", f.Value)
 }
 
 // Result has many Fiedls

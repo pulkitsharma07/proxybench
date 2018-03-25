@@ -1,12 +1,21 @@
 package main
 
+import (
+	"fmt"
+	"github.com/pulkitsharma07/proxybench/automation"
+	"github.com/pulkitsharma07/proxybench/config"
+	"github.com/pulkitsharma07/proxybench/suite"
+)
+
 func main() {
-	chromeDriver := Driver{"chromedriver", 9222, nil}
+	chromeDriver := automation.NewChromeDriver(9222)
 	chromeDriver.Start()
 	defer chromeDriver.Stop()
 
-	suite := NewSimpleTestSuite(chromeDriver)
+	Suite := suite.NewSimpleSuite([]config.Config{{config.Proxy{}}}, chromeDriver.Port)
 
-	suite.executeAsync()
-	//suite.executeSync()
+	fmt.Printf("%+v", Suite)
+	Suite.Run()
+
+	Suite.Results()
 }

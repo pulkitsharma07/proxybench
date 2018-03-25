@@ -31,7 +31,10 @@ Generates the following:
 </pre>
 Generated using:
 browsermob v2.1.4, mitmproxy v2.0.2
+`Direct` stands for the baseline performance, i.e. without using any proxies.
 
+# dependencies
+* Make sure you have `chromedriver` present in your PATH.
 
 ## development
 * Use `dep` to install dependencies

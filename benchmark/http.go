@@ -1,5 +1,5 @@
 package benchmark
 
-func StressHTTP(name string) *Stress {
-	return NewStress(name, false)
+func StressHTTP() *Stress {
+	return NewStress("HTTP Stress", false)
 }

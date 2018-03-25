@@ -20,8 +20,8 @@ func NewSimpleSuite(config []config.Config, webDriverPort int) *Suite {
 	return &Suite{
 		config,
 		[]benchmark.Benchmark{
-			benchmark.StressHTTPS("HTTPS Stress"),
-			benchmark.StressHTTP("HTTP Stress"),
+			benchmark.StressHTTPS(),
+			benchmark.StressHTTP(),
 		},
 		webDriverPort,
 		[]result.Result{},

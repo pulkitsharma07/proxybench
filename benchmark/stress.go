@@ -1,7 +1,7 @@
 package benchmark
 
 import (
-	"log"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -52,12 +52,19 @@ func (t *Stress) Run(config config.Config, port int) {
 		panic(err)
 	}
 
+	//               Fetch the elapsed time from the DOM.
+	// Wait just to ensure that page has completely loaded and timer has stopped.
 	time.Sleep(2 * time.Second)
+
+	// Get the timer DOM element
 	timeToLoad, err := wd.FindElement(selenium.ByCSSSelector, "#time")
 	if err != nil {
-		log.Fatal("Failed to parse results")
+		fmt.Printf("Unable to find score..\n")
+		t.result = result.NewLoadTimeResult(config, t.name+" (FAILED)", "PageLoadTime(sec)", -1.0)
+		return
 	}
 
+	// Parse score to float (Will help in computing other things in future)
 	timeToLoadStr, err := timeToLoad.Text()
 	duration, err := strconv.ParseFloat(strings.Replace(timeToLoadStr, " s", "", -1), 64)
 

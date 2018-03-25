@@ -15,7 +15,8 @@ type Suite struct {
 	results       []result.Result
 }
 
-// Generates a new testSuite, Add different tests in the testCase slice
+// Generates a new Suite, Generates a predefined list of  benchmarks to execute
+// for each proxy.
 func NewSimpleSuite(config []config.Config, webDriverPort int) *Suite {
 	return &Suite{
 		config,

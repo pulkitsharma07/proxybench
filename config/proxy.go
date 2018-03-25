@@ -1,5 +1,7 @@
 package config
 
+import "fmt"
+
 type Proxy struct {
 	Name    string `json:"name"`
 	Address string `json:"address"`

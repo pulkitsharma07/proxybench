@@ -16,7 +16,7 @@ func ShowReport(results []result.Result) {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Config", "Benchmark", "Completed in (seconds)"})
+	table.SetHeader([]string{"Proxy Config", "Benchmark", "Completed in (seconds)"})
 
 	table.SetHeaderColor(
 		tablewriter.Colors{tablewriter.Bold, tablewriter.BgGreenColor},

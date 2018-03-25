@@ -18,7 +18,7 @@ func ReadConfig() []Config {
 	var configJson ConfigJson
 	json.NewDecoder(fileReader).Decode(&configJson)
 
-	suiteConfig := []Config{}
+	suiteConfig := []Config{{Proxy{"Direct", ""}}}
 
 	for _, proxy := range configJson.Proxies {
 		suiteConfig = append(suiteConfig, Config{proxy})

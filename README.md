@@ -29,7 +29,7 @@ Generates the following:
 | Proxy: [mitmproxy]             | HTTP Stress  | [32.880000]            |
 +--------------------------------+--------------+------------------------+
 </pre>
-* Generated using: browsermob v2.1.4, mitmproxy v2.0.2
+* Generated using: browsermob v2.1.4, mitmproxy v2.0.2 (No config changes/tuning)
 * `Direct` stands for the baseline performance, i.e. without using any proxy.
 
 ## Dependencies

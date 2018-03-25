@@ -45,7 +45,7 @@ type BrowserAutomator struct {
 func (b BrowserAutomator) StartChrome(proxyConf ...config.Proxy) selenium.WebDriver {
 	caps := selenium.Capabilities{"browserName": "chrome"}
 
-	if len(proxyConf) > 0 && proxyConf[0] != (config.Proxy{}) {
+	if len(proxyConf) > 0 && proxyConf[0].Address != "" {
 		chromeCaps := chrome.Capabilities{
 			Args: []string{"--proxy-server=" + proxyConf[0].Address},
 		}

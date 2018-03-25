@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
-
-  "github.com/pulkitsharma07/proxybench/launcher"
-  "github.com/pulkitsharma07/proxybench/config"
+	"github.com/pulkitsharma07/proxybench/config"
+	"github.com/pulkitsharma07/proxybench/launcher"
+	"github.com/pulkitsharma07/proxybench/reporter"
 )
 
 func main() {
-  suite := launcher.Launch([]config.Config{{config.Proxy{}}})
-  fmt.Printf("%+v", suite.Results())
+	suite := launcher.Launch([]config.Config{{config.Proxy{"Direct", ""}}, {config.Proxy{"mitmproxy", "localhost:8085"}}})
+	reporter.ShowReport(suite.Results())
 }

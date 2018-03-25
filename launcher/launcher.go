@@ -14,5 +14,5 @@ func Launch(suiteConfig []config.Config) *suite.Suite {
 	Suite := suite.NewSimpleSuite(suiteConfig, chromeDriver.Port)
 	Suite.Run()
 
-  return Suite
+	return Suite
 }

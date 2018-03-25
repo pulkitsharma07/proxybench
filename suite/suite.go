@@ -20,8 +20,8 @@ func NewSimpleSuite(config []config.Config, webDriverPort int) *Suite {
 	return &Suite{
 		config,
 		[]benchmark.Benchmark{
-			benchmark.StressHTTP("HTTP Stress"),
 			benchmark.StressHTTPS("HTTPS Stress"),
+			benchmark.StressHTTP("HTTP Stress"),
 		},
 		webDriverPort,
 		[]result.Result{},
@@ -29,7 +29,9 @@ func NewSimpleSuite(config []config.Config, webDriverPort int) *Suite {
 }
 
 func (t *Suite) Run() {
+	fmt.Printf("Starting with Config: %v\n", t.config)
 	for _, benchConfig := range t.config {
+		fmt.Printf("\tLaunching benchmark(s) for: %+v\n", benchConfig)
 		t.executeSync(benchConfig)
 	}
 }
@@ -47,11 +49,9 @@ func (t *Suite) Results() []result.Result {
 }
 
 func (t *Suite) executeSync(benchConfig config.Config) {
-	fmt.Printf("Executing Test Suite for %v (Sync)\nPlease Wait..\n", benchConfig)
-
 	// Launch tests in Sync
 	for _, test := range t.tests {
-		//fmt.Printf("****Starting %v*****\n", test)
+		fmt.Printf("\t\tStarting %+v\n", test)
 		test.Run(benchConfig, t.webDriverPort)
 		t.pushResults(test.Results())
 	}

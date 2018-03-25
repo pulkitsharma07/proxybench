@@ -62,35 +62,5 @@ func (l LoadTimeResult) Config() config.Config {
 }
 
 func (l LoadTimeResult) String() string {
-	return fmt.Sprintf("Config: %v, Benchmark: %v, Result: %v", l.config, l.benchmark, l.Results())
+	return fmt.Sprintf("Config: %v, Benchmark: %v, Result: %v", l.config, l.benchmark, l.results)
 }
-
-////TODO:
-//// Make this accept testResult instead.
-//func prettyPrint(results []LoadTimeResult) {
-//	data := [][]string{}
-//
-//	for _, result := range results {
-//		resultFields := result.Results()
-//		data = append(data, []string{result.testCase().String(), resultFields[0].Name, fmt.Sprintf("%f", resultFields[0].Value)})
-//	}
-//
-//	table := tablewriter.NewWriter(os.Stdout)
-//	table.SetHeader([]string{"Benchmark", "Field", "Value"})
-//
-//	table.SetHeaderColor(
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.BgGreenColor},
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.BgGreenColor},
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.BgGreenColor},
-//	)
-//
-//	table.SetColumnColor(
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiGreenColor},
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
-//		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
-//	)
-//
-//	table.AppendBulk(data)
-//	fmt.Print("\nRESULTS\n")
-//	table.Render()
-//}

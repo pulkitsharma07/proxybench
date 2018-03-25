@@ -43,7 +43,6 @@ func (t *Suite) pushResults(res result.Result) {
 }
 
 func (t *Suite) Results() []result.Result {
-	fmt.Printf("%v\n", t.results)
 	return t.results
 }
 

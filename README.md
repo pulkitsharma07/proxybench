@@ -3,15 +3,15 @@ Benchmark different proxies on basis of the following:
 
 | test                    |   Implemented       | Description |
 |:------------------------|:-------------------:|:------------|
-|HTTP Stress              | :white_check_mark:  | Goes to http://httpvshttps.com and fetches the time to load everything.|
-|HTTPS Stress (HTTP/2)    | :white_check_mark:  | Goes to https://httpvshttps.com and fetches the time to load everything.|
+|HTTP Stress              | :white_check_mark:  | Goes to http://httpvshttps.com and then fetches the time it took to load everything.|
+|HTTPS Stress (HTTP/2)    | :white_check_mark:  | Goes to https://httpvshttps.com and then fetches the time it took to load everything.|
 |HTTPS Stress (HTTP/1.1)  |                     ||
 |WebSocket                |                     ||
 |Video Streaming          |                     ||
 |WebSocket Secure         |                     ||
 |\<TO ADD MORE\>          |                     ||
 
-## Reports
+## Reporting
 Generates the following:
 <pre>
 +--------------------------------+--------------+------------------------+

@@ -1,0 +1,12 @@
+{
+  "proxies" : [
+    {
+      "name": "browsermob",
+      "address": "localhost:8081"
+    },
+    {
+      "name": "mitmproxy",
+      "address": "localhost:8082"
+    }
+  ]
+}

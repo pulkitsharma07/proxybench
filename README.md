@@ -50,6 +50,6 @@ Generates the following:
 * Launch proxies from this script?
 
 
-*PS: I made this mainly to learn `Go`. I will really appreciate if you can point out things in the code which I should improve upon. For example naming conventions, directory structure, etc. Feel free to open any issues.*
+*PS: I made this mainly to learn `Go`. I will really appreciate if you can point out things in the code which I should improve upon. For example naming conventions, directory structure, or new benchmarks etc. Feel free to open any issues.*
 
 **Thank You !**

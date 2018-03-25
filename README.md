@@ -40,7 +40,8 @@ Generates the following:
 * Add proxy information in `proxybench.json`
 * benchmarks are defined in `benchmarks/`
 * You can define new benchmarks similarly, add them to `NewSimpleSuite` to execute.
-* `go run *go` to run.
+* `go install`
+* `proxybench` to run (Assuming GOBIN is added to your PATH)
 
 ### TODO
 * Unit and integration tests.

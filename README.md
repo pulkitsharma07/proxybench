@@ -29,14 +29,13 @@ Generates the following:
 | Proxy: [mitmproxy]             | HTTP Stress  | [32.880000]            |
 +--------------------------------+--------------+------------------------+
 </pre>
-Generated using:
-browsermob v2.1.4, mitmproxy v2.0.2
-`Direct` stands for the baseline performance, i.e. without using any proxies.
+* Generated using: browsermob v2.1.4, mitmproxy v2.0.2
+* `Direct` stands for the baseline performance, i.e. without using any proxies.
 
-# dependencies
+## Dependencies
 * Make sure you have `chromedriver` present in your PATH.
 
-## development
+## Development
 * Use `dep` to install dependencies
 * Add proxy information in `proxybench.json`
 * benchmarks are defined in `benchmarks/`
@@ -49,3 +48,8 @@ browsermob v2.1.4, mitmproxy v2.0.2
 * Add wrapper around `Run` to measure the proxy's CPU/Memory usage (Need to take PID from user, or figure out from script?).Eventually render a timeseries graph.
 * Test reports, generate test reports confining to some format, each test case will have corresponding timeseries graphs of CPU, memory, disk, number of sockets etc of the proxy.
 * Launch proxies from this script?
+
+
+*PS: I made this mainly to learn `Go`. I will really appreciate if you can point out things in the code which I should improve upon. For example naming conventions, directory structure, etc. Feel free to open any issues.*
+
+**Thank You !**

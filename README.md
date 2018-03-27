@@ -14,22 +14,30 @@ Benchmark different proxies on basis of the following:
 ## Reporting
 Generates the following:
 <pre>
-+--------------------------------+--------------+------------------------+
-|          PROXY CONFIG          |  BENCHMARK   | COMPLETED IN (SECONDS) |
-+--------------------------------+--------------+------------------------+
-| Proxy: [Direct]                | HTTPS Stress | [4.592000]             |
-| Proxy: [Direct]                | HTTP Stress  | [15.988000]            |
-| Proxy: [browsermob (Legacy)]   | HTTPS Stress | [15.855000]            |
-| Proxy: [browsermob (Legacy)]   | HTTP Stress  | [17.401000]            |
-| Proxy: [browsermob             | HTTPS Stress | [17.774000]            |
-| (LittleProxy)]                 |              |                        |
-| Proxy: [browsermob             | HTTP Stress  | [16.448000]            |
-| (LittleProxy)]                 |              |                        |
-| Proxy: [mitmproxy]             | HTTPS Stress | [44.268000]            |
-| Proxy: [mitmproxy]             | HTTP Stress  | [32.880000]            |
-+--------------------------------+--------------+------------------------+
++--------------------------------+----------------+------------------------+
+|          PROXY CONFIG          |   BENCHMARK    | COMPLETED IN (SECONDS) |
++--------------------------------+----------------+------------------------+
+| Proxy: [Direct]                | HTTP Stress    | [15.575000]            |
+| Proxy: [Direct]                | HTTPS Stress   | [2.757000]             |
+| Proxy: [Direct]                | Heavy Websites | [20.703525]            |
+| Proxy:                         | HTTP Stress    | [17.920000]            |
+| [browsermob(littleproxy)]      |                |                        |
+| Proxy:                         | HTTPS Stress   | [17.053000]            |
+| [browsermob(littleproxy)]      |                |                        |
+| Proxy:                         | Heavy Websites | [40.902084]            |
+| [browsermob(littleproxy)]      |                |                        |
+| Proxy: [browsermob(legacy)]    | HTTP Stress    | [20.777000]            |
+| Proxy: [browsermob(legacy)]    | HTTPS Stress   | [17.399000]            |
+| Proxy: [browsermob(legacy)]    | Heavy Websites | [31.580184]            |
+| Proxy: [mitmproxy]             | HTTP Stress    | [39.376000]            |
+| Proxy: [mitmproxy]             | HTTPS Stress   | [47.631000]            |
+| Proxy: [mitmproxy]             | Heavy Websites | [198.824246]           |
+| Proxy: [mitmdump]              | HTTP Stress    | [17.960000]            |
+| Proxy: [mitmdump]              | HTTPS Stress   | [8.147000]             |
+| Proxy: [mitmdump]              | Heavy Websites | [41.605729]            |
++--------------------------------+----------------+------------------------+
 </pre>
-* Generated using: browsermob v2.1.4, mitmproxy v2.0.2 (No config changes/tuning)
+* Generated using: browsermob v2.1.4, mitmproxy/mitmdump v3.0.3
 * `Direct` stands for the baseline performance, i.e. without using any proxy.
 
 ## Dependencies

@@ -10,9 +10,9 @@ type Benchmark interface {
 	// Gets the Benchmark's Name For Example: "HTTP Stress"
 	String() string
 
-	// Runs the benchmark using a WebDriver compatible server listening
-	// on port <port> and pushes the result to the <done> channel on completion
-	Run(config config.Config, port int)
+	// Runs the benchmark using by launching a WebDriver compatible server listening
+	// on a random port.
+	Run(config config.Config)
 
 	// Should return the result(s) generated for this benchmark
 	Results() result.Result

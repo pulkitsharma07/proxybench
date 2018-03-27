@@ -43,10 +43,10 @@ func (t *Stress) Results() result.Result {
 	return t.result
 }
 
-func (t *Stress) Run(config config.Config, port int) {
-	b := automation.BrowserAutomator{port}
-	wd := b.StartChrome(config.ProxyToUse)
-	defer wd.Quit()
+func (t *Stress) Run(config config.Config) {
+	chrome := automation.NewChromeAutomator(config.ProxyToUse)
+	defer chrome.Stop()
+	wd := chrome.Wd
 
 	if err := wd.Get(t.url); err != nil {
 		panic(err)

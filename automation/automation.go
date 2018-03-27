@@ -3,6 +3,9 @@ package automation
 import (
 	"fmt"
 	"log"
+	"net"
+	"strconv"
+	"strings"
 
 	"github.com/pulkitsharma07/proxybench/config"
 	"github.com/tebeka/selenium"
@@ -17,7 +20,19 @@ type Driver struct {
 	process          *selenium.Service
 }
 
-func NewChromeDriver(port int) *Driver {
+// Starts chromedriver on random port.
+func NewChromeDriver() *Driver {
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		panic(err)
+	}
+
+	port, err := strconv.Atoi(strings.Split(listener.Addr().String(), ":")[1])
+	if err != nil {
+		panic(err)
+	}
+	listener.Close()
+
 	return &Driver{
 		"chromedriver",
 		port,
@@ -38,11 +53,14 @@ func (d *Driver) Stop() {
 }
 
 type BrowserAutomator struct {
-	// Port where chromedriver/geckodriver/Selenium JAR is listening
-	ServicePort int
+	driver *Driver
+	Wd     selenium.WebDriver
 }
 
-func (b BrowserAutomator) StartChrome(proxyConf ...config.Proxy) selenium.WebDriver {
+func NewChromeAutomator(proxyConf ...config.Proxy) *BrowserAutomator {
+	chromedriver := NewChromeDriver()
+	chromedriver.Start()
+
 	caps := selenium.Capabilities{"browserName": "chrome"}
 
 	if len(proxyConf) > 0 && proxyConf[0].Address != "" {
@@ -52,11 +70,19 @@ func (b BrowserAutomator) StartChrome(proxyConf ...config.Proxy) selenium.WebDri
 		caps.AddChrome(chromeCaps)
 	}
 
-	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", b.ServicePort))
+	wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", chromedriver.Port))
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return wd
+	return &BrowserAutomator{
+		chromedriver,
+		wd,
+	}
+}
+
+func (b *BrowserAutomator) Stop() {
+	b.Wd.Quit()
+	b.driver.Stop()
 }

@@ -3,10 +3,10 @@ Benchmark different proxies on basis of the following:
 
 | test                    |   Implemented       | Description |
 |:------------------------|:-------------------:|:------------|
-|HTTP Stress              | :white_check_mark:  | records the time it takes to finish the test on http://httpvshttps.com||
-|HTTPS Stress (HTTP/2)    | :white_check_mark:  | records the time it takes to finish the test on https://httpvshttps.com|
-| Heavy Websites| | records the time it takes to open websites like https://techcrunch.com/ |
-|HTTPS Stress (HTTP/1.1)  |                     ||
+|HTTP Stress              | :white_check_mark:  | records the time it takes to finish the test on http://httpvshttps.com  |
+|HTTPS Stress (HTTP/2)    | :white_check_mark:  | records the time it takes to finish the test on https://httpvshttps.com |
+| Heavy Websites          | :white_check_mark:  | records the time it takes to open websites like https://techcrunch.com/ |
+|HTTPS Stress (HTTP/1.1)  |    ||
 |WS Support               |                     ||
 |WSS Support         |                     ||
 |\<TO ADD MORE\>          |                     ||

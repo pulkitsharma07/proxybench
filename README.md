@@ -11,6 +11,16 @@ Benchmark different proxies on basis of the following:
 |WSS Support         |                     ||
 |\<TO ADD MORE\>          |                     ||
 
+## Installation
+* `go get github.com/pulkitsharma07/proxybench`
+
+## Running the benchmark
+* Make sure you have `chromedriver` present in your PATH.
+* Start the desired proxies on different ports.
+* Make sure you add and trust the certificates provided by the respective proxies, so that they can be considered as a trusted CA by the browser.
+* Refer `proxybench.json.sample` and create `proxybench.json` similarly.
+* Launch `proxybench`, it will look for `proxybench.json` in the current directory and run according to that config.
+
 ## Reporting
 Generates the following:
 <pre>
@@ -42,13 +52,6 @@ Generates the following:
 </pre>
 * Generated using: browsermob v2.1.4, mitmproxy/mitmdump v3.0.3, charles 4.2.1
 * `Direct` stands for the baseline performance, i.e. without using any proxy.
-
-## Running the benchmark
-* Make sure you have `chromedriver` present in your PATH.
-* Start the desired proxies on different ports.
-* Make sure you add and trust the certificates provided by the respective proxies, so that they can be considered as a trusted CA by the browser.
-* Refer `proxybench.json.sample` and create `proxybench.json` similarly.
-* Launch with `proxybench`, it will look for `proxybench.json` in the current directory and run according to that config.
 
 ## Development
 * Use `dep` to install dependencies

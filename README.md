@@ -35,9 +35,12 @@ Generates the following:
 | Proxy: [mitmdump]              | HTTP Stress    | [17.960000]            |
 | Proxy: [mitmdump]              | HTTPS Stress   | [8.147000]             |
 | Proxy: [mitmdump]              | Heavy Websites | [41.605729]            |
+| Proxy: [charles]               | HTTP Stress    | [18.535000]            |
+| Proxy: [charles]               | HTTPS Stress   | [6.322000]             |
+| Proxy: [charles]               | Heavy Websites | [52.927620]            |
 +--------------------------------+----------------+------------------------+
 </pre>
-* Generated using: browsermob v2.1.4, mitmproxy/mitmdump v3.0.3
+* Generated using: browsermob v2.1.4, mitmproxy/mitmdump v3.0.3, charles 4.2.1
 * `Direct` stands for the baseline performance, i.e. without using any proxy.
 
 ## Dependencies

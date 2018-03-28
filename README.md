@@ -43,8 +43,12 @@ Generates the following:
 * Generated using: browsermob v2.1.4, mitmproxy/mitmdump v3.0.3, charles 4.2.1
 * `Direct` stands for the baseline performance, i.e. without using any proxy.
 
-## Dependencies
+## Running the benchmark
 * Make sure you have `chromedriver` present in your PATH.
+* Start the desired proxies on different ports.
+* Make sure you add and trust the certificates provided by the respective proxies, so that they can be considered as a trusted CA by the browser.
+* Refer `proxybench.json.sample` and create `proxybench.json` similarly.
+* Launch with `proxybench`, it will look for `proxybench.json` in the current directory and run according to that config.
 
 ## Development
 * Use `dep` to install dependencies
@@ -54,9 +58,10 @@ Generates the following:
 * `go install`
 * `proxybench` to run (Assuming GOBIN is added to your PATH)
 
-### TODO
+## TODO
 * Unit and integration tests.
-* CLI options to launch tests in sync/async
+* CLI option to skip the baseline (DIRECT) test.
+* CLI options to launch tests in sync/async.
 * Add wrapper around `Run` to measure the proxy's CPU/Memory usage (Need to take PID from user, or figure out from script?).Eventually render a timeseries graph.
 * Test reports, generate test reports confining to some format, each test case will have corresponding timeseries graphs of CPU, memory, disk, number of sockets etc of the proxy.
 * Final plan is to give every proxy a score based on its performance in comparison to the baseline for the different benchmarks.

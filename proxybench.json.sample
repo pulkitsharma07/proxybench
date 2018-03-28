@@ -1,0 +1,24 @@
+{
+  "proxies" : [
+    {
+      "name": "browsermob(littleproxy)",
+      "address": "localhost:8081"
+    },
+    {
+      "name": "browsermob(legacy)",
+      "address": "localhost:8084"
+    },
+    {
+      "name": "mitmproxy",
+      "address": "localhost:8085"
+    },
+    {
+      "name": "mitmdump",
+      "address": "localhost:8086"
+    },
+    {
+      "name": "charles",
+      "address": "localhost:8888"
+    }
+  ]
+}
